@@ -36,7 +36,7 @@ const { data: screenshots, status } = useQuery({
 					class="flex flex-col"
 				>
 					<img
-						:src="`https://jelita-r2.bladesheng.com/${screenshot.name}`"
+						:src="`https://jelita-r2.bladesheng.com/${screenshot.path}`"
 						:alt="screenshot.wow_name"
 					/>
 					<div class="text-center capitalize">{{ screenshot.wow_name }}</div>

@@ -1,4 +1,6 @@
-export const WOW_CLASSES = [
+import type { IWowClass } from '@/types/types.ts';
+
+export const WOW_CLASSES: { name: IWowClass; color: string }[] = [
 	{ name: 'death knight', color: '#C41E3A' },
 	{ name: 'demon hunter', color: '#A330C9' },
 	{ name: 'druid', color: '#FF7C0A' },
