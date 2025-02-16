@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Screenshot;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class ScreenshotController extends Controller
@@ -45,7 +46,10 @@ class ScreenshotController extends Controller
         $screenshot->wow_class = $request->input('wowClass');
         $screenshot->save();
 
-        return response()->json(['message' => 'file uploaded successfully', 'path' => $path]);
+        return response()->json([
+            'message' => 'screenshot uploaded successfully',
+            'path' => $path,
+        ]);
     }
 
     /**
@@ -67,16 +71,30 @@ class ScreenshotController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): JsonResponse
     {
-        //
+        $screenshot = Screenshot::findOrFail($id);
+        $screenshot->wow_name = $request->input('wowName');
+        $screenshot->wow_class = $request->input('wowClass');
+        $screenshot->save();
+
+        return response()->json([
+            'message' => 'screenshot updated successfully',
+            'screenshot' => $screenshot,
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): Response
     {
-        //
+        $screenshot = Screenshot::findOrFail($id);
+
+        Storage::disk('s3')->delete($screenshot->path);
+
+        $screenshot->delete();
+
+        return response()->noContent();
     }
 }

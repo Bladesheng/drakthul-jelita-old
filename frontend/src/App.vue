@@ -2,6 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router';
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import Toast from 'primevue/toast';
+import ConfirmPopup from 'primevue/confirmpopup';
 </script>
 
 <template>
@@ -15,6 +16,7 @@ import Toast from 'primevue/toast';
 	<RouterView />
 
 	<Toast />
+	<ConfirmPopup />
 
 	<VueQueryDevtools />
 </template>

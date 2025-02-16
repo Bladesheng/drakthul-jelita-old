@@ -36,7 +36,7 @@ const { mutate, status } = useMutation({
 	onSuccess: () => {
 		queryClient.invalidateQueries({ queryKey: ['screenshots'] });
 
-		toast.add({ severity: 'success', summary: 'Success', detail: 'File Uploaded', life: 5000 });
+		toast.add({ severity: 'success', summary: 'Success', detail: 'File uploaded', life: 5000 });
 
 		resetForm();
 	},
@@ -86,9 +86,7 @@ async function handleFile(file: File) {
 	await worker.terminate();
 }
 
-async function onSubmit(e: Event) {
-	e.preventDefault();
-
+async function onSubmit() {
 	const formData = new FormData();
 	formData.append('file', screenshot.value!);
 	formData.append('wowName', wowName.value);
@@ -106,7 +104,7 @@ function resetForm() {
 </script>
 
 <template>
-	<form class="flex flex-col items-center gap-8" @submit="onSubmit">
+	<form class="flex flex-col items-center gap-8" @submit.prevent="onSubmit">
 		<FileUpload mode="basic" @select="onSelect" accept="image/*" :maxFileSize="5_000_000" />
 
 		<img v-if="src" :src="src" alt="" class="w-64 rounded shadow" />

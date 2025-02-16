@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/vue-query';
 import { WOW_CLASSES } from '@/utils/utils.ts';
 import { getScreenshots } from '@/api/screenshots.ts';
 import ProgressSpinner from 'primevue/progressspinner';
+import Screenshot from '@/components/Screenshot.vue';
 
 const { data: screenshots, status } = useQuery({
 	queryKey: ['screenshots'],
@@ -30,17 +31,11 @@ const { data: screenshots, status } = useQuery({
 			</div>
 
 			<div class="flex flex-col gap-4" v-if="status === 'success'">
-				<div
+				<Screenshot
 					v-for="screenshot in screenshots![playableClass.name]"
 					:key="screenshot.id"
-					class="flex flex-col"
-				>
-					<img
-						:src="`https://jelita-r2.bladesheng.com/${screenshot.path}`"
-						:alt="screenshot.wow_name"
-					/>
-					<div class="text-center capitalize">{{ screenshot.wow_name }}</div>
-				</div>
+					:screenshot
+				/>
 			</div>
 		</div>
 	</main>
