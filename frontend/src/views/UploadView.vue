@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { createWorker, PSM } from 'tesseract.js';
-import { type FileUploadSelectEvent, useToast } from 'primevue';
+import { useToast } from 'primevue';
 import { useEventListener } from '@vueuse/core';
 import { ref } from 'vue';
 import { WOW_CLASSES } from '@/utils/utils.ts';
-import FileUpload from 'primevue/fileupload';
 import InputText from 'primevue/inputtext';
 import RadioButton from 'primevue/radiobutton';
 import Button from 'primevue/button';
 import { uploadScreenshot } from '@/api/screenshots.ts';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import FileDropper from '@/components/FileDropper.vue';
 
 const toast = useToast();
 const queryClient = useQueryClient();
@@ -52,10 +52,6 @@ const { mutate, status } = useMutation({
 		});
 	},
 });
-
-function onSelect(e: FileUploadSelectEvent) {
-	handleFile(e.files[0]);
-}
 
 async function handleFile(file: File) {
 	const reader = new FileReader();
@@ -104,35 +100,52 @@ function resetForm() {
 </script>
 
 <template>
-	<form class="flex flex-col items-center gap-8" @submit.prevent="onSubmit">
-		<FileUpload mode="basic" @select="onSelect" accept="image/*" :maxFileSize="5_000_000" />
+	<main class="flex grow items-center">
+		<form
+			class="flex grow flex-col items-center justify-center gap-8 md:flex-row"
+			@submit.prevent="onSubmit"
+		>
+			<div class="flex flex-col gap-4 md:self-stretch">
+				<img v-if="src" :src="src" alt="" class="w-64 rounded shadow" />
 
-		<img v-if="src" :src="src" alt="" class="w-64 rounded shadow" />
-
-		<div class="flex flex-col">
-			<label for="username">Name</label>
-			<InputText id="username" v-model="wowName" />
-		</div>
-
-		<div class="flex flex-col gap-1">
-			<div
-				v-for="playableClass in WOW_CLASSES"
-				:key="playableClass.name"
-				class="flex items-center gap-2"
-			>
-				<RadioButton v-model="wowClass" :inputId="playableClass.name" :value="playableClass.name" />
-				<label :for="playableClass.name" class="capitalize" :style="{ color: playableClass.color }">
-					{{ playableClass.name }}
-				</label>
+				<FileDropper @drop="handleFile" class="mt-auto h-50 w-64" />
 			</div>
-		</div>
 
-		<Button
-			label="Save"
-			type="submit"
-			:disabled="status === 'pending' || !wowName.length || !wowClass.length || !screenshot"
-		/>
-	</form>
+			<div class="flex flex-col gap-4">
+				<div class="flex flex-col">
+					<label for="username">Name</label>
+					<InputText id="username" v-model="wowName" />
+				</div>
+
+				<div class="flex flex-col gap-1">
+					<div
+						v-for="playableClass in WOW_CLASSES"
+						:key="playableClass.name"
+						class="flex items-center gap-2"
+					>
+						<RadioButton
+							v-model="wowClass"
+							:inputId="playableClass.name"
+							:value="playableClass.name"
+						/>
+						<label
+							:for="playableClass.name"
+							class="capitalize"
+							:style="{ color: playableClass.color }"
+						>
+							{{ playableClass.name }}
+						</label>
+					</div>
+				</div>
+
+				<Button
+					label="Save"
+					type="submit"
+					:disabled="status === 'pending' || !wowName.length || !wowClass.length || !screenshot"
+				/>
+			</div>
+		</form>
+	</main>
 </template>
 
 <style scoped></style>
