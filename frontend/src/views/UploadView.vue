@@ -100,7 +100,7 @@ function resetForm() {
 </script>
 
 <template>
-	<main class="flex grow items-center">
+	<main class="mx-4 flex grow items-center">
 		<form
 			class="flex grow flex-col items-center justify-center gap-8 md:flex-row"
 			@submit.prevent="onSubmit"

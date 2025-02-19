@@ -38,16 +38,16 @@ const filteredClasses = computed(() => {
 </script>
 
 <template>
-	<div class="grid">
+	<div class="grid gap-1">
 		<div v-for="playableClass in filteredClasses" :key="playableClass.name">
 			<div
-				class="mb-4 text-center text-xl font-bold capitalize"
+				class="mb-4 text-center text-lg font-bold capitalize"
 				:style="{ color: playableClass.color }"
 			>
 				{{ playableClass.name }}
 			</div>
 
-			<div class="flex flex-col gap-4">
+			<div class="flex flex-col gap-1">
 				<Screenshot
 					v-for="screenshot in filteredScreenshots![playableClass.name]"
 					:key="screenshot.id"
@@ -60,6 +60,6 @@ const filteredClasses = computed(() => {
 
 <style scoped>
 .grid {
-	grid-template-columns: repeat(13, 150px);
+	grid-template-columns: repeat(13, minmax(135px, 1fr));
 }
 </style>

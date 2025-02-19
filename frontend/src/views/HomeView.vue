@@ -12,7 +12,7 @@ const { data: screenshots, status } = useQuery({
 </script>
 
 <template>
-	<main>
+	<main class="m-4">
 		<div v-if="status === 'pending'">
 			<ProgressSpinner />
 		</div>

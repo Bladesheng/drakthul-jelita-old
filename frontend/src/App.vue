@@ -6,7 +6,7 @@ import ConfirmPopup from 'primevue/confirmpopup';
 </script>
 
 <template>
-	<header>
+	<header class="m-4">
 		<nav class="flex gap-4">
 			<RouterLink to="/">Home</RouterLink>
 			<RouterLink to="/upload">Upload</RouterLink>
