@@ -33,6 +33,7 @@ const deleteMutation = useMutation({
 function onDeleteClick(event: MouseEvent) {
 	confirm.require({
 		target: event.currentTarget as HTMLElement,
+		header: 'Delete screenshot',
 		message: 'Are you sure you want to delete this screenshot?',
 		icon: 'pi pi-exclamation-triangle',
 		rejectProps: {
