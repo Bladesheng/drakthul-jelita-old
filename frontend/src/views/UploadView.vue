@@ -7,7 +7,7 @@ import { WOW_CLASSES } from '@/utils/utils.ts';
 import InputText from 'primevue/inputtext';
 import RadioButton from 'primevue/radiobutton';
 import Button from 'primevue/button';
-import { uploadScreenshot } from '@/api/screenshots.ts';
+import { uploadScreenshot } from '@/api/api.ts';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import FileDropper from '@/components/FileDropper.vue';
 

@@ -3,9 +3,10 @@ import type { IScreenshot } from '@/types/types.ts';
 import Button from 'primevue/button';
 import { useConfirm, useToast } from 'primevue';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import { deleteScreenshot } from '@/api/screenshots.ts';
+import { deleteScreenshot } from '@/api/api.ts';
 import ScreenshotEditModal from '@/components/ScreenshotEditModal.vue';
 import { ref } from 'vue';
+import { useUser } from '@/stores/user.ts';
 
 let { screenshot } = defineProps<{
 	screenshot: IScreenshot;
@@ -14,6 +15,7 @@ let { screenshot } = defineProps<{
 const confirm = useConfirm();
 const queryClient = useQueryClient();
 const toast = useToast();
+const userStore = useUser();
 
 const isModalOpen = ref(false);
 
@@ -56,6 +58,7 @@ function onDeleteClick(event: MouseEvent) {
 		<img :src="`https://jelita-r2.bladesheng.com/${screenshot.path}`" :alt="screenshot.wow_name" />
 
 		<div
+			v-if="userStore.isLoggedIn"
 			class="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
 		>
 			<div class="rounded bg-gray-600 px-1 text-center capitalize">{{ screenshot.wow_name }}</div>

@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
-import { getScreenshots } from '@/api/screenshots.ts';
+import { getScreenshots } from '@/api/api.ts';
 import ProgressSpinner from 'primevue/progressspinner';
 import Filters from '@/components/Filters.vue';
 import ScreenshotsGrid from '@/components/ScreenshotsGrid.vue';
+import LoginButton from '@/components/LoginButton.vue';
 
 const { data: screenshots, status } = useQuery({
 	queryKey: ['screenshots'],
@@ -23,6 +24,8 @@ const { data: screenshots, status } = useQuery({
 			<ScreenshotsGrid :screenshots="screenshots!" />
 		</div>
 	</main>
+
+	<LoginButton />
 </template>
 
 <style scoped></style>

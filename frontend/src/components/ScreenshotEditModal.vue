@@ -7,7 +7,7 @@ import { WOW_CLASSES } from '@/utils/utils.ts';
 import RadioButton from 'primevue/radiobutton';
 import { ref } from 'vue';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import { updateScreenshot } from '@/api/screenshots.ts';
+import { updateScreenshot } from '@/api/api.ts';
 import { useToast } from 'primevue';
 
 const isModalOpen = defineModel<boolean>();

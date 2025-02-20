@@ -1,7 +1,13 @@
 <?php
 
 use App\Http\Controllers\ScreenshotController;
+use App\Http\Middleware\LoginAuth;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('screenshots', ScreenshotController::class);
-//    ->middleware('auth:sanctum');
+Route::get('screenshots', [ScreenshotController::class, 'index']);
+
+Route::middleware([LoginAuth::class])->group(function () {
+    Route::post('screenshots', [ScreenshotController::class, 'store']);
+    Route::patch('screenshots', [ScreenshotController::class, 'update']);
+    Route::delete('screenshots', [ScreenshotController::class, 'destroy']);
+});

@@ -3,6 +3,7 @@ import type { IScreenshots } from '@/types/types.ts';
 
 const api = axios.create({
 	baseURL: 'http://localhost:8000',
+	withCredentials: true,
 });
 
 export async function getScreenshots(): Promise<IScreenshots> {
@@ -20,4 +21,12 @@ export async function updateScreenshot(params: { id: number; wowName: string; wo
 
 export async function deleteScreenshot(screenshotId: number) {
 	return await api.delete(`/api/screenshots/${screenshotId}`);
+}
+
+export async function login(password: string) {
+	return await api.post('/login', { password });
+}
+
+export async function logout() {
+	return await api.post('/logout');
 }
