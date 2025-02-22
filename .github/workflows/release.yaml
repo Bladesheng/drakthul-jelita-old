@@ -1,0 +1,50 @@
+name: Cloudflare Pages build and deployment
+
+on:
+  push:
+    branches: [main]
+
+  # manual trigger
+  workflow_dispatch:
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  job-1:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build the application
+        run: pnpm run build
+
+      # Note: there cannot be top level 404.html or SPA rendering won't work because Cloudflare pages will look for non-existing .html files
+      # https://developers.cloudflare.com/pages/configuration/serving-pages/#single-page-application-spa-rendering
+      - name: Upload build to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          # Get the credentials here:
+          # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#get-credentials-from-cloudflare
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=drakthul-jelita
+          # Optional: Enable this if you want to have GitHub Deployments triggered
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
