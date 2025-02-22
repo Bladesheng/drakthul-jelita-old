@@ -8,6 +8,6 @@ Route::get('screenshots', [ScreenshotController::class, 'index']);
 
 Route::middleware([LoginAuth::class])->group(function () {
     Route::post('screenshots', [ScreenshotController::class, 'store']);
-    Route::patch('screenshots', [ScreenshotController::class, 'update']);
-    Route::delete('screenshots', [ScreenshotController::class, 'destroy']);
+    Route::patch('screenshots/{id}', [ScreenshotController::class, 'update']);
+    Route::delete('screenshots/{id}', [ScreenshotController::class, 'destroy']);
 });
