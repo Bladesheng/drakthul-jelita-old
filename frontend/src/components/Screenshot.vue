@@ -61,13 +61,21 @@ function onDeleteClick(event: MouseEvent) {
 
 		<div
 			v-if="userStore.isLoggedIn"
-			class="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
+			class="absolute inset-0 z-1 flex flex-col items-center justify-center gap-1 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
 		>
-			<div class="rounded bg-gray-600 px-1 text-center capitalize">{{ screenshot.wow_name }}</div>
+			<div class="rounded bg-gray-700 px-1 text-center text-sm capitalize">
+				{{ screenshot.wow_name }}
+			</div>
 
-			<div class="flex gap-2">
-				<Button icon="pi pi-trash" severity="danger" rounded @click="onDeleteClick" />
-				<Button icon="pi pi-pencil" rounded @click="isModalOpen = true" />
+			<div class="flex gap-1">
+				<Button
+					icon="pi pi-trash"
+					severity="danger"
+					@click="onDeleteClick"
+					size="small"
+					class="h-8 w-8"
+				/>
+				<Button icon="pi pi-pencil" @click="isModalOpen = true" size="small" class="h-8 w-8" />
 			</div>
 		</div>
 	</div>
