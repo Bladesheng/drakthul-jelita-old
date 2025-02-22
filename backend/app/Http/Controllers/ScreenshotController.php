@@ -15,7 +15,9 @@ class ScreenshotController extends Controller
      */
     public function index(): JsonResponse
     {
-        $screenshots = Screenshot::all('id', 'path', 'wow_name', 'wow_class')
+        $screenshots = Screenshot::select('id', 'path', 'wow_name', 'wow_class')
+            ->orderBy('wow_name')
+            ->get()
             ->groupBy('wow_class');
 
         return response()->json($screenshots);
