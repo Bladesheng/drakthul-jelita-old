@@ -3,12 +3,24 @@ import InputText from 'primevue/inputtext';
 import { useFilters } from '@/stores/filters.ts';
 import { WOW_CLASSES } from '@/utils/utils.ts';
 import MultiSelect from 'primevue/multiselect';
+import type { IScreenshots } from '@/types/types.ts';
+import { computed } from 'vue';
+
+const { screenshots } = defineProps<{
+	screenshots: IScreenshots;
+}>();
+
+console.log(screenshots);
+
+const screenshotsCount = computed(() => {
+	return Object.values(screenshots).reduce((total, screenshots) => total + screenshots.length, 0);
+});
 
 const filters = useFilters();
 </script>
 
 <template>
-	<div class="flex gap-4">
+	<div class="flex grow items-center gap-4 self-stretch">
 		<InputText v-model="filters.search" type="search" placeholder="Search for names..." />
 
 		<MultiSelect
@@ -27,6 +39,8 @@ const filters = useFilters();
 				</span>
 			</template>
 		</MultiSelect>
+
+		<div class="ml-auto">{{ screenshotsCount }} screenshots</div>
 	</div>
 </template>
 

@@ -18,7 +18,7 @@ const { data: screenshots, status } = useQuery({
 		</div>
 
 		<div v-else-if="status === 'success'" class="flex flex-col gap-6">
-			<Filters />
+			<Filters :screenshots="screenshots!" />
 
 			<ScreenshotsGrid :screenshots="screenshots!" />
 		</div>
