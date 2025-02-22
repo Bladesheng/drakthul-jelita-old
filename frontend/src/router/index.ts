@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '@/views/HomeView.vue';
+import { useUser } from '@/stores/user.ts';
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +14,17 @@ const router = createRouter({
 			path: '/upload',
 			name: 'upload',
 			component: () => import('@/views/UploadView.vue'),
+			beforeEnter: () => {
+				const userStore = useUser();
+				if (!userStore.isLoggedIn) {
+					return '/';
+				}
+			},
+		},
+		{
+			path: '/about',
+			name: 'about',
+			component: () => import('@/views/AboutView.vue'),
 		},
 	],
 });

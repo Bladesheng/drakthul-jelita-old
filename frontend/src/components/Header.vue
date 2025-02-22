@@ -6,13 +6,23 @@ const userStore = useUser();
 </script>
 
 <template>
-	<header v-if="userStore.isLoggedIn" class="m-4">
+	<header class="m-4">
 		<nav
-			class="decoration-primary-500 flex gap-4 text-xl font-bold decoration-2 underline-offset-3"
+			class="decoration-primary-500 flex items-center gap-4 text-xl font-bold decoration-2 underline-offset-3"
 		>
+			<img src="/favicon.svg" alt="" class="h-10 w-10" />
+
 			<RouterLink to="/" activeClass="text-primary-500" class="hover:underline">Home</RouterLink>
-			<RouterLink to="/upload" activeClass="text-primary-500" class="hover:underline">
+			<RouterLink
+				to="/upload"
+				activeClass="text-primary-500"
+				class="hover:underline"
+				v-if="userStore.isLoggedIn"
+			>
 				Upload
+			</RouterLink>
+			<RouterLink to="/about" activeClass="text-primary-500" class="hover:underline">
+				About
 			</RouterLink>
 		</nav>
 	</header>
