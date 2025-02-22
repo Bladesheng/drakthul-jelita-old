@@ -29,11 +29,14 @@ jobs:
         with:
           node-version: 22
           cache: "pnpm"
+          cache-dependency-path: frontend/pnpm-lock.yaml
 
       - name: Install dependencies
+        working-directory: frontend
         run: pnpm install --frozen-lockfile
 
       - name: Build the application
+        working-directory: frontend
         run: pnpm run build
 
       # Note: there cannot be top level 404.html or SPA rendering won't work because Cloudflare pages will look for non-existing .html files
@@ -45,6 +48,6 @@ jobs:
           # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#get-credentials-from-cloudflare
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=drakthul-jelita
+          command: pages deploy frontend/dist --project-name=drakthul-jelita
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
