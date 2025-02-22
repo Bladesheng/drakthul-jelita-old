@@ -73,8 +73,10 @@ async function handleFile(file: File) {
 	});
 
 	const result = await worker.recognize(file);
+	const name = result.data.text;
+	const nameFormatted = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
-	wowName.value = result.data.text;
+	wowName.value = nameFormatted;
 	screenshot.value = file;
 
 	await worker.terminate();
