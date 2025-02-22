@@ -68,10 +68,8 @@ async function handleFile(file: File) {
 		// https://github.com/tesseract-ocr/tesseract/blob/4.0.0/src/ccstruct/publictypes.h#L163
 		tessedit_pageseg_mode: PSM.SINGLE_WORD,
 
-		tessedit_char_whitelist:
-			'abcdefghijklmnopqrstuvwxyz' +
-			'ABCDEFGHIJKLMNOPQRSTUVWXYZ' +
-			'áÁàÀâÂäÄåÅªæÆçÇœŒéÉèÈêÊëËƒíÍìÌîÎïÏñÑóÓòÒôÔöÖºúÚùÙûÛÜýÝÿ',
+		tessedit_char_whitelist: 'abcdefghijklmnopqrstuvwxyz' + 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+		// 'áÁàÀâÂäÄåÅªæÆçÇœŒéÉèÈêÊëËƒíÍìÌîÎïÏñÑóÓòÒôÔöÖºúÚùÙûÛÜýÝÿ',
 	});
 
 	const result = await worker.recognize(file);
