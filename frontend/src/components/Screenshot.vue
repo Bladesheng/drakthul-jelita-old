@@ -12,6 +12,8 @@ let { screenshot } = defineProps<{
 	screenshot: IScreenshot;
 }>();
 
+const VITE_S3_ENDPOINT = import.meta.env.VITE_S3_ENDPOINT;
+
 const confirm = useConfirm();
 const queryClient = useQueryClient();
 const toast = useToast();
@@ -55,7 +57,7 @@ function onDeleteClick(event: MouseEvent) {
 
 <template>
 	<div class="group relative flex flex-col">
-		<img :src="`https://jelita-r2.bladesheng.com/${screenshot.path}`" :alt="screenshot.wow_name" />
+		<img :src="`${VITE_S3_ENDPOINT}/${screenshot.path}`" :alt="screenshot.wow_name" />
 
 		<div
 			v-if="userStore.isLoggedIn"
