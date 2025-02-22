@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import LoginButton from '@/components/LoginButton.vue';
+</script>
 
 <template>
 	<main class="m-4">
@@ -15,6 +17,8 @@
 			</a>
 		</small>
 	</main>
+
+	<LoginButton />
 </template>
 
 <style scoped></style>
