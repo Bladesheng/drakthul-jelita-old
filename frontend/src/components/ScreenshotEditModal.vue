@@ -76,10 +76,11 @@ function onSubmit() {
 						v-model="wowClass"
 						:inputId="playableClass.name"
 						:value="playableClass.name"
+						size="large"
 					/>
 					<label
 						:for="playableClass.name"
-						class="capitalize"
+						class="text-xl capitalize"
 						:style="{ color: playableClass.color }"
 					>
 						{{ playableClass.name }}
