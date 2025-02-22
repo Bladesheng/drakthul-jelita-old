@@ -16,7 +16,7 @@ let { screenshot } = defineProps<{
 	screenshot: IScreenshot;
 }>();
 
-const VITE_S3_ENDPOINT = import.meta.env.VITE_S3_ENDPOINT;
+const VITE_S3_URL = import.meta.env.VITE_S3_URL;
 
 const queryClient = useQueryClient();
 const toast = useToast();
@@ -58,7 +58,7 @@ function onSubmit() {
 	<Dialog v-model:visible="isModalOpen" modal header="Edit screenshot" @show="updateInputs">
 		<form class="flex flex-col items-center gap-8" @submit.prevent="onSubmit">
 			<img
-				:src="`${VITE_S3_ENDPOINT}/${screenshot.path}`"
+				:src="`${VITE_S3_URL}/${screenshot.path}`"
 				:alt="screenshot.wow_name"
 				class="w-64 rounded shadow"
 			/>

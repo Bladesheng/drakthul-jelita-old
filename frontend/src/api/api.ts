@@ -2,7 +2,7 @@ import type { IScreenshots } from '@/types/types.ts';
 import { ofetch } from 'ofetch';
 
 const api = ofetch.create({
-	baseURL: 'http://localhost:8000',
+	baseURL: import.meta.env.VITE_API_URL,
 	credentials: 'include',
 });
 
