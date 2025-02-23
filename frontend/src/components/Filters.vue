@@ -15,12 +15,18 @@ const screenshotsCount = computed(() =>
 );
 
 const classCounts = computed(() =>
-	Object.entries(screenshots).reduce<Record<string, number>>((counts, [className, screenshots]) => {
-		const classColor = WOW_CLASSES.find((wowClass) => wowClass.name === className)!.color;
-		counts[classColor] = screenshots.length;
-
-		return counts;
-	}, {})
+	Object.entries(screenshots)
+		.reduce<
+			{
+				classColor: string;
+				count: number;
+			}[]
+		>((counts, [className, screenshots]) => {
+			const classColor = WOW_CLASSES.find((wowClass) => wowClass.name === className)!.color;
+			counts.push({ classColor, count: screenshots.length });
+			return counts;
+		}, [])
+		.sort((a, b) => b.count - a.count)
 );
 
 const filters = useFilters();
@@ -51,10 +57,7 @@ const filters = useFilters();
 			<span>{{ screenshotsCount }} screenshots</span>
 
 			(<span class="inline-flex gap-2">
-				<span
-					v-for="[classColor, count] in Object.entries(classCounts)"
-					:style="{ color: classColor }"
-				>
+				<span v-for="{ classColor, count } in classCounts" :style="{ color: classColor }">
 					{{ count }}
 				</span> </span
 			>)
