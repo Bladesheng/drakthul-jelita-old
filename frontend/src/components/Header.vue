@@ -14,10 +14,10 @@ const userStore = useUser();
 
 			<RouterLink to="/" activeClass="text-primary-500" class="hover:underline">Home</RouterLink>
 			<RouterLink
+				v-if="userStore.isLoggedIn"
 				to="/upload"
 				activeClass="text-primary-500"
 				class="hover:underline"
-				v-if="userStore.isLoggedIn"
 			>
 				Upload
 			</RouterLink>

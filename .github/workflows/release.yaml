@@ -35,13 +35,21 @@ jobs:
         working-directory: frontend
         run: pnpm install --frozen-lockfile
 
-      - name: Build the application
+      - name: Typecheck
+        working-directory: frontend
+        run: pnpm run type-check
+
+      - name: Lint
+        working-directory: frontend
+        run: pnpm run lint
+
+      - name: Build
         working-directory: frontend
         run: pnpm run build
 
       # Note: there cannot be top level 404.html or SPA rendering won't work because Cloudflare pages will look for non-existing .html files
       # https://developers.cloudflare.com/pages/configuration/serving-pages/#single-page-application-spa-rendering
-      - name: Upload build to Cloudflare Pages
+      - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           # Get the credentials here:

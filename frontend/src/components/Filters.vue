@@ -22,7 +22,12 @@ const classCounts = computed(() =>
 				count: number;
 			}[]
 		>((counts, [className, screenshots]) => {
-			const classColor = WOW_CLASSES.find((wowClass) => wowClass.name === className)!.color;
+			const wowClass = WOW_CLASSES.find((wowClass) => wowClass.name === className);
+			if (!wowClass) {
+				return counts;
+			}
+
+			const classColor = wowClass.color;
 			counts.push({ classColor, count: screenshots.length });
 			return counts;
 		}, [])
@@ -57,7 +62,11 @@ const filters = useFilters();
 			<span>{{ screenshotsCount }} screenshots</span>
 
 			(<span class="inline-flex gap-2">
-				<span v-for="{ classColor, count } in classCounts" :style="{ color: classColor }">
+				<span
+					v-for="{ classColor, count } in classCounts"
+					:key="classColor"
+					:style="{ color: classColor }"
+				>
 					{{ count }}
 				</span> </span
 			>)

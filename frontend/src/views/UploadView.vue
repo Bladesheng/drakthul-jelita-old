@@ -97,7 +97,12 @@ async function handleFile(file: File) {
 
 async function onSubmit() {
 	const formData = new FormData();
-	formData.append('file', screenshot.value!);
+
+	if (!screenshot.value) {
+		return;
+	}
+
+	formData.append('file', screenshot.value);
 	formData.append('wowName', wowName.value);
 	formData.append('wowClass', wowClass.value);
 
@@ -121,7 +126,7 @@ function resetForm() {
 			<div class="flex flex-col gap-4 md:self-stretch">
 				<img v-if="src" :src="src" alt="" class="w-64 rounded shadow" />
 
-				<FileDropper @drop="handleFile" class="mt-auto h-50 w-64" />
+				<FileDropper class="mt-auto h-50 w-64" @drop="handleFile" />
 			</div>
 
 			<div class="flex flex-col gap-4">

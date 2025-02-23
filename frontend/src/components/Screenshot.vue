@@ -8,7 +8,7 @@ import ScreenshotEditModal from '@/components/ScreenshotEditModal.vue';
 import { ref } from 'vue';
 import { useUser } from '@/stores/user.ts';
 
-let { screenshot } = defineProps<{
+const { screenshot } = defineProps<{
 	screenshot: IScreenshot;
 }>();
 
@@ -71,16 +71,16 @@ function onDeleteClick(event: MouseEvent) {
 				<Button
 					icon="pi pi-trash"
 					severity="danger"
-					@click="onDeleteClick"
 					size="small"
 					class="h-8 w-8"
+					@click="onDeleteClick"
 				/>
-				<Button icon="pi pi-pencil" @click="isModalOpen = true" size="small" class="h-8 w-8" />
+				<Button icon="pi pi-pencil" size="small" class="h-8 w-8" @click="isModalOpen = true" />
 			</div>
 		</div>
 	</div>
 
-	<ScreenshotEditModal :screenshot v-model="isModalOpen" />
+	<ScreenshotEditModal v-model="isModalOpen" :screenshot />
 </template>
 
 <style scoped></style>

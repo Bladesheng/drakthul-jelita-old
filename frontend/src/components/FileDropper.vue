@@ -59,7 +59,7 @@ function dragLeave() {
 		</div>
 	</div>
 
-	<input class="hidden" ref="file-input" type="file" accept="image/*" @change="onFileInput" />
+	<input ref="file-input" class="hidden" type="file" accept="image/*" @change="onFileInput" />
 </template>
 
 <style scoped></style>

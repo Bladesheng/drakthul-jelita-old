@@ -12,7 +12,7 @@ import { useToast } from 'primevue';
 
 const isModalOpen = defineModel<boolean>();
 
-let { screenshot } = defineProps<{
+const { screenshot } = defineProps<{
 	screenshot: IScreenshot;
 }>();
 
