@@ -10,9 +10,18 @@ const { screenshots } = defineProps<{
 	screenshots: IScreenshots;
 }>();
 
-const screenshotsCount = computed(() => {
-	return Object.values(screenshots).reduce((total, screenshots) => total + screenshots.length, 0);
-});
+const screenshotsCount = computed(() =>
+	Object.values(screenshots).reduce((total, screenshots) => total + screenshots.length, 0)
+);
+
+const classCounts = computed(() =>
+	Object.entries(screenshots).reduce<Record<string, number>>((counts, [className, screenshots]) => {
+		const classColor = WOW_CLASSES.find((wowClass) => wowClass.name === className)!.color;
+		counts[classColor] = screenshots.length;
+
+		return counts;
+	}, {})
+);
 
 const filters = useFilters();
 </script>
@@ -38,7 +47,18 @@ const filters = useFilters();
 			</template>
 		</MultiSelect>
 
-		<div class="ml-auto">{{ screenshotsCount }} screenshots</div>
+		<div class="ml-auto">
+			<span>{{ screenshotsCount }} screenshots</span>
+
+			(<span class="inline-flex gap-2">
+				<span
+					v-for="[classColor, count] in Object.entries(classCounts)"
+					:style="{ color: classColor }"
+				>
+					{{ count }}
+				</span> </span
+			>)
+		</div>
 	</div>
 </template>
 
