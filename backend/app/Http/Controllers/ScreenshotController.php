@@ -36,6 +36,13 @@ class ScreenshotController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
+        $exists = Screenshot::where('wow_name', $request->input('wowName'))->exists();
+        if ($exists) {
+            return response()->json([
+                'message' => 'screenshot with that name already exists',
+            ], 409);
+        }
+
         $file = $request->file('file');
 
         $path = Storage::disk('s3')->putFile($file);

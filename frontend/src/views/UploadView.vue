@@ -44,9 +44,22 @@ const { mutate, status } = useMutation({
 	onError: (error) => {
 		console.error(error);
 
+		// @ts-ignore
+		if (error.status === 409) {
+			toast.add({
+				severity: 'error',
+				summary: 'Name already exists',
+				// @ts-ignore
+				detail: error.data.message,
+				life: 10000,
+			});
+
+			return;
+		}
+
 		toast.add({
 			severity: 'error',
-			summary: 'Failure',
+			summary: 'Error',
 			detail: 'File upload failed: ' + error,
 			life: 5000,
 		});

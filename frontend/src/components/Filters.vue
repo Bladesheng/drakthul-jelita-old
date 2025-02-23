@@ -10,8 +10,6 @@ const { screenshots } = defineProps<{
 	screenshots: IScreenshots;
 }>();
 
-console.log(screenshots);
-
 const screenshotsCount = computed(() => {
 	return Object.values(screenshots).reduce((total, screenshots) => total + screenshots.length, 0);
 });
