@@ -36,10 +36,16 @@ class ScreenshotController extends Controller
      */
     public function store(Request $request): JsonResponse
     {
-        $exists = Screenshot::where('wow_name', $request->input('wowName'))->exists();
+        $wowName = $request->input('wowName');
+        $wowClass = $request->input('wowClass');
+
+        $exists = Screenshot::where('wow_name', $wowName)
+            ->where('wow_class', $wowClass)
+            ->exists();
+
         if ($exists) {
             return response()->json([
-                'message' => 'screenshot with that name already exists',
+                'message' => 'screenshot with that name and class already exists',
             ], 409);
         }
 
@@ -51,8 +57,8 @@ class ScreenshotController extends Controller
         $screenshot->path = $path;
         $screenshot->mime_type = $file->getClientMimeType();
         $screenshot->size = $file->getSize();
-        $screenshot->wow_name = $request->input('wowName');
-        $screenshot->wow_class = $request->input('wowClass');
+        $screenshot->wow_name = $wowName;
+        $screenshot->wow_class = $wowClass;
         $screenshot->save();
 
         return response()->json([

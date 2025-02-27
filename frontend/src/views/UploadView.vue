@@ -113,7 +113,7 @@ function resetForm() {
 	screenshot.value = undefined;
 	src.value = undefined;
 	wowName.value = '';
-	// wowClass.value = ''; // @TODO
+	wowClass.value = '';
 }
 </script>
 
