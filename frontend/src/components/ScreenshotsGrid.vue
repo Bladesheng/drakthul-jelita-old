@@ -1,16 +1,22 @@
 <script setup lang="ts">
 import { WOW_CLASSES } from '@/utils/utils.ts';
 import Screenshot from '@/components/Screenshot.vue';
-import type { IScreenshots, IWowClass } from '@/types/types.ts';
+import type { IScreenshot, IScreenshots, IWowClass } from '@/types/types.ts';
 import { useFilters } from '@/stores/filters.ts';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import fuzzysort from 'fuzzysort';
+import ScreenshotEditModal from '@/components/ScreenshotEditModal.vue';
+import { useUser } from '@/stores/user.ts';
 
 const { screenshots } = defineProps<{
 	screenshots: IScreenshots;
 }>();
 
 const filters = useFilters();
+const userStore = useUser();
+
+const isModalOpen = ref(false);
+const selectedScreenshot = ref<IScreenshot>();
 
 const filteredScreenshots = computed(() => {
 	if (filters.search.length === 0) {
@@ -35,6 +41,15 @@ const filteredScreenshots = computed(() => {
 const filteredClasses = computed(() => {
 	return WOW_CLASSES.filter((wowClass) => filters.activeClasses.includes(wowClass.name));
 });
+
+function onScreenshotClick(screenshot: IScreenshot) {
+	if (!userStore.isLoggedIn) {
+		return;
+	}
+
+	selectedScreenshot.value = screenshot;
+	isModalOpen.value = true;
+}
 </script>
 
 <template>
@@ -52,10 +67,17 @@ const filteredClasses = computed(() => {
 					v-for="screenshot in filteredScreenshots![playableClass.name]"
 					:key="screenshot.id"
 					:screenshot
+					@click="onScreenshotClick(screenshot)"
 				/>
 			</div>
 		</div>
 	</div>
+
+	<ScreenshotEditModal
+		v-if="userStore.isLoggedIn && selectedScreenshot"
+		v-model="isModalOpen"
+		:screenshot="selectedScreenshot"
+	/>
 </template>
 
 <style scoped>
