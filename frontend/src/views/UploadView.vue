@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { createWorker, PSM } from 'tesseract.js';
 import { useToast } from 'primevue';
-import { useEventListener } from '@vueuse/core';
-import { ref } from 'vue';
+import { refDebounced, useEventListener } from '@vueuse/core';
+import { ref, toRef } from 'vue';
 import { WOW_CLASSES } from '@/utils/utils.ts';
 import InputText from 'primevue/inputtext';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 import RadioButton from 'primevue/radiobutton';
 import Button from 'primevue/button';
-import { uploadScreenshot } from '@/api/api.ts';
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { search, uploadScreenshot } from '@/api/api.ts';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import FileDropper from '@/components/FileDropper.vue';
 
 const toast = useToast();
@@ -28,6 +30,29 @@ useEventListener(document, 'paste', (event: ClipboardEvent) => {
 			handleFile(file);
 		}
 	}
+});
+
+const isFilled = refDebounced(
+	toRef(() => wowName.value.length > 0 && wowClass.value.length > 0),
+	200
+);
+
+const queryKey = refDebounced(
+	toRef(() => ['screenshots-search', wowName.value, wowClass.value]),
+	200
+);
+
+const searchQuery = useQuery({
+	queryKey,
+	queryFn: async ({ signal }) => {
+		if (wowName.value.length === 0 || wowClass.value.length === 0) {
+			return false;
+		}
+
+		const screenshots = await search({ wowName: wowName.value, wowClass: wowClass.value }, signal);
+
+		return screenshots.length === 0;
+	},
 });
 
 const { mutate, status } = useMutation({
@@ -132,7 +157,21 @@ function resetForm() {
 			<div class="flex flex-col gap-4">
 				<div class="flex flex-col">
 					<label for="username">Name</label>
-					<InputText id="username" v-model="wowName" />
+					<IconField>
+						<InputText
+							id="username"
+							v-model="wowName"
+							:invalid="isFilled && searchQuery.data.value === false"
+						/>
+						<InputIcon
+							class="pi"
+							:class="{
+								'pi-spin pi-spinner': searchQuery.isPending.value,
+								'pi-check-circle text-green-500': isFilled && searchQuery.data.value === true,
+								'pi-times-circle text-red-300': isFilled && searchQuery.data.value === false,
+							}"
+						/>
+					</IconField>
 				</div>
 
 				<div class="flex flex-col gap-1">
@@ -160,7 +199,14 @@ function resetForm() {
 				<Button
 					label="Save"
 					type="submit"
-					:disabled="status === 'pending' || !wowName.length || !wowClass.length || !screenshot"
+					:disabled="
+						status === 'pending' ||
+						!wowName.length ||
+						!wowClass.length ||
+						!screenshot ||
+						searchQuery.isPending.value ||
+						searchQuery.data.value !== true
+					"
 				/>
 			</div>
 		</form>

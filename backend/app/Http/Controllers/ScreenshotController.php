@@ -10,6 +10,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ScreenshotController extends Controller
 {
+    public function search(Request $request): JsonResponse
+    {
+        $screenshots = Screenshot::where('wow_name', $request->input('wowName'))
+            ->where('wow_class', $request->input('wowClass'))
+            ->get();
+
+        return response()->json($screenshots);
+    }
+
     /**
      * Display a listing of the resource.
      */
